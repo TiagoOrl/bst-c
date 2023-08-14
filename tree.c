@@ -86,7 +86,63 @@ bool delete(Node * root, int id)
 {
     Node * found = search(root, id, false);
 
+    if (found == NULL)
+        return false;
 
+    if (found->left == NULL && found->right == NULL)
+    {
+        free(found);
+        if (found->parent->left != NULL)
+            found->parent->left = NULL;
+        else
+            found->parent->right = NULL;
+
+        return true;
+    }
+
+    if (found->left != NULL && found->right == NULL)
+    {
+        Node * parent = found->parent;
+        found->left->parent = parent;
+
+        if (parent->left != NULL && parent->left->id == id)
+        {
+            parent->left = found->left;
+            free(found);
+
+            return true;
+        }
+
+        parent->right = found->left;
+        free(found);
+        return true;
+    }
+
+    if (found->left == NULL && found->right != NULL)
+    {
+        Node * parent = found->parent;
+        found->right->parent = parent;
+
+        if (parent->left != NULL && parent->left->id == id)
+        {
+            parent->left = found->right;
+
+            free(found);
+            return true;
+        }
+
+        parent->right = found->right;
+        
+        free(found);
+        return true;
+    }
+
+    if (found->left != NULL && found->right != NULL)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 void printAll(Node * node, const char side)
