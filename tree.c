@@ -139,7 +139,30 @@ bool delete(Node * root, int id)
 
     if (found->left != NULL && found->right != NULL)
     {
-        return false;
+        Node * succ = found->right;
+        Node * foundParent = found->parent;
+
+        while (succ->left != NULL)
+        {
+            succ = succ->left;
+        }
+
+        succ->parent->left = NULL;
+
+        if (succ->right != NULL)
+            succ->parent->left = succ->right;
+
+        if (foundParent->left != NULL && foundParent->left->id == id)
+        {
+            foundParent->left = succ;
+            free(found);
+            return true;
+        }
+
+        foundParent->right = succ;
+
+        free(found);
+        return true;
     }
 
     return true;
@@ -149,10 +172,10 @@ void printAll(Node * node, const char side)
 {
     if (node != NULL)
     {
-        printf("%c node (%d), \t height %d ", side, node->id, node->height);
+        printf("%c node (%d), h = %d", side, node->id, node->height);
         
         if (node->parent != NULL)
-            printf("parent : (%d) \n", node->parent->id);
+            printf("\tpar. -> (%d) \n", node->parent->id);
         else
             printf("(root)\n");
 

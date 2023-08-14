@@ -15,7 +15,6 @@ int main(int argc, char const *argv[])
     root = insert(root, NULL, 22);
 
     root = insert(root, NULL, 58);
-    root = insert(root, NULL, 60);
     root = insert(root, NULL, 64);
     root = insert(root, NULL, 3);
     root = insert(root, NULL, 7);
