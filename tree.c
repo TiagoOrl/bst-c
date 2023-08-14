@@ -77,9 +77,9 @@ Node * search(Node * root, int id, bool debug)
         return search(root->right, id, debug);
     }
 
-        if (debug == true)
-            printf("< %d\n", root->id);
-        return search(root->left, id, debug);
+    if (debug == true)
+        printf("< %d\n", root->id);
+    return search(root->left, id, debug);
 }
 
 bool delete(Node * root, int id)
