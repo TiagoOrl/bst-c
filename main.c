@@ -26,7 +26,7 @@ int main(int argc, char const *argv[])
 
     printf("\n\n\n");
 
-    int id = 58;
+    int id = 22;
     Node * found = search(root, id, true);
 
     if (found != NULL)

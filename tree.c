@@ -70,16 +70,16 @@ Node * search(Node * root, int id, bool debug)
     if (root->id == id)
         return root;
 
-    if (id > root->id)
+    if (id < root->id)
     {
         if (debug == true)
-            printf("> %d\n", root->id);
-        return search(root->right, id, debug);
+            printf("< %d\n", root->id);
+        return search(root->left, id, debug);
     }
 
     if (debug == true)
-        printf("< %d\n", root->id);
-    return search(root->left, id, debug);
+        printf("> %d\n", root->id);
+    return search(root->right, id, debug);
 }
 
 bool delete(Node * root, int id)
