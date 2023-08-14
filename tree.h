@@ -1,6 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define true 1
+#define false 0
+
+typedef int bool;
+
 struct _node
 {
     int id;
@@ -21,5 +26,9 @@ int height(Node * n);
 Node * createRoot(int id);
 
 Node * insert(Node * node, Node * parent, int id);
+
+Node * search(Node * root, int id, bool debug);
+
+bool delete(Node * root, int id);
 
 void printAll(Node * node, const char side);
