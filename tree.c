@@ -199,6 +199,22 @@ int size(Node * node)
     return (size(node->left) + 1 + size(node->right));
 }
 
+int minimal(Node * node)
+{
+    if (node->left != NULL)
+        return minimal(node->left);
+
+    return node->id;
+}
+
+int largest(Node * node)
+{
+    if (node->right != NULL)
+        return largest(node->right);
+
+    return node->id;
+}
+
 void printAll(Node * node, const char side)
 {
     if (node == NULL)

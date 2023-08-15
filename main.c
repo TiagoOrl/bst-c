@@ -31,9 +31,16 @@ int main(int argc, char const *argv[])
     delete(root, 30);
     delete(root, 8);
     delete(root, 11);
+    delete(root, 3);
+    delete(root, 64);
+    delete(root, 58);
 
     printAll(root, '|');
     printf("size: %d\n\n", size(root));
+
+    printf("\n");
+    printf("largest val: (%d)\n", largest(root));
+    printf("minimal val: (%d)\n", minimal(root));
 
     return EXIT_SUCCESS;
 }

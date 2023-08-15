@@ -33,6 +33,10 @@ bool delete(Node * root, int id);
 
 int size(Node * root);
 
+int largest(Node * root);
+
+int minimal(Node * root);
+
 void printAll(Node * node, const char side);
 
 void printInOrder(Node * node, const char side);
