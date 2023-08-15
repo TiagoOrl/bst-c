@@ -89,49 +89,47 @@ bool delete(Node * root, int id)
     if (found == NULL)
         return false;
 
+
+    // if leaf node
     if (found->left == NULL && found->right == NULL)
     {
-        free(found);
-        if (found->parent->left != NULL)
+        // find at what side the found node is from parent
+        if (found->parent->left != NULL && 
+            found->parent->left->id == id)
             found->parent->left = NULL;
         else
             found->parent->right = NULL;
-
+            
+            
+        free(found);
         return true;
     }
 
     if (found->left != NULL && found->right == NULL)
     {
-        Node * parent = found->parent;
-        found->left->parent = parent;
+        Node * foundParent = found->parent;
+        found->left->parent = foundParent;
 
-        if (parent->left != NULL && parent->left->id == id)
-        {
-            parent->left = found->left;
-            free(found);
-
-            return true;
-        }
-
-        parent->right = found->left;
+        // find at what side the found node is from parent
+        if (foundParent->left != NULL && foundParent->left->id == id)
+            foundParent->left = found->left;
+        else
+            foundParent->right = found->left;
+        
         free(found);
         return true;
     }
 
-    if (found->left == NULL && found->right != NULL)
+    if (found->right != NULL && found->left == NULL)
     {
-        Node * parent = found->parent;
-        found->right->parent = parent;
+        Node * foundParent = found->parent;
+        found->right->parent = foundParent;
 
-        if (parent->left != NULL && parent->left->id == id)
-        {
-            parent->left = found->right;
-
-            free(found);
-            return true;
-        }
-
-        parent->right = found->right;
+        // find at what side the found node is from parent
+        if (foundParent->left != NULL && foundParent->left->id == id)
+            foundParent->left = found->right;
+        else
+            foundParent->right = found->right;
         
         free(found);
         return true;
@@ -142,26 +140,39 @@ bool delete(Node * root, int id)
         Node * succ = found->right;
         Node * foundParent = found->parent;
 
-        while (succ->left != NULL)
+
+        if (succ->left != NULL)
         {
-            succ = succ->left;
+            while (succ->left != NULL)
+            {
+                succ = succ->left;
+            }
+            
+            succ->parent->left = NULL;
+        } 
+        
+        else 
+        {
+            succ = found->left;
+            if (succ->right == NULL)
+            {
+                succ->parent->left = NULL;
+            }
+            else 
+            {
+                while (succ->right != NULL)
+                {
+                    succ = succ->right;
+                }
+                
+                succ->parent->right = NULL;
+            }
         }
 
-        succ->parent->left = NULL;
 
-        if (succ->right != NULL)
-            succ->parent->left = succ->right;
+        found->id = succ->id;
 
-        if (foundParent->left != NULL && foundParent->left->id == id)
-        {
-            foundParent->left = succ;
-            free(found);
-            return true;
-        }
-
-        foundParent->right = succ;
-
-        free(found);
+        free(succ);
         return true;
     }
 
@@ -177,7 +188,7 @@ void printAll(Node * node, const char side)
         if (node->parent != NULL)
             printf("\tpar. -> (%d) \n", node->parent->id);
         else
-            printf("(root)\n");
+            printf("\t(root)\n");
 
         printAll(node->left, '<');
         printAll(node->right, '>');
