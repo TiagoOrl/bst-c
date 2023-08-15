@@ -13,20 +13,27 @@ int main(int argc, char const *argv[])
     root = insert(root, NULL, 12);
     root = insert(root, NULL, 40);
     root = insert(root, NULL, 22);
-
+    insert(root, NULL, 58);
     root = insert(root, NULL, 47);
     root = insert(root, NULL, 3);
     root = insert(root, NULL, 7);
     root = insert(root, NULL, 11);
     root = insert(root, NULL, 35);
+    insert(root, NULL, 64);
 
 
     printf("\n\n\n");
+
+    printAll(root, '|');
+    printf("size: %d\n\n", size(root));
+    printf("\n\n");
+
+    delete(root, 30);
     delete(root, 8);
-    delete(root, 3);
-    delete(root, 40);
+    delete(root, 11);
 
-    printInOrder(root, '|');
+    printAll(root, '|');
+    printf("size: %d\n\n", size(root));
 
-    return 0;
+    return EXIT_SUCCESS;
 }

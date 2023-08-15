@@ -31,6 +31,8 @@ Node * search(Node * root, int id, bool debug);
 
 bool delete(Node * root, int id);
 
+int size(Node * root);
+
 void printAll(Node * node, const char side);
 
 void printInOrder(Node * node, const char side);

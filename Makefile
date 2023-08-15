@@ -2,7 +2,7 @@ CC=gcc
 
 
 run: main.o tree.o
-	$(CC) -o run main.o tree.o && rm *.o && ./run
+	$(CC) -o run main.o tree.o && rm *.o && clear && ./run
 
 main.o: main.c
 	$(CC) -c main.c

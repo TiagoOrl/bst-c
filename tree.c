@@ -147,8 +147,14 @@ bool delete(Node * root, int id)
             {
                 succ = succ->left;
             }
-            
-            succ->parent->left = NULL;
+
+            if (succ->right != NULL)
+            {
+                succ->parent->left = succ->right;
+                succ->right->parent = succ->parent;
+            }
+            else
+                succ->parent->left = NULL;
         } 
         
         else 
@@ -165,7 +171,13 @@ bool delete(Node * root, int id)
                     succ = succ->right;
                 }
                 
-                succ->parent->right = NULL;
+                if (succ->left != NULL)
+                {
+                    succ->parent->right = succ->left;
+                    succ->left->parent = succ->parent;
+                }
+                else
+                    succ->parent->right = NULL;
             }
         }
 
@@ -179,20 +191,29 @@ bool delete(Node * root, int id)
     return true;
 }
 
+int size(Node * node)
+{
+    if (node == NULL)
+        return 0;
+
+    return (size(node->left) + 1 + size(node->right));
+}
+
 void printAll(Node * node, const char side)
 {
-    if (node != NULL)
-    {
-        printf("%c node (%d), h = %d", side, node->id, node->height);
-        
-        if (node->parent != NULL)
-            printf("\tpar. -> (%d) \n", node->parent->id);
-        else
-            printf("\t(root)\n");
+    if (node == NULL)
+        return;
 
-        printAll(node->left, '<');
-        printAll(node->right, '>');
-    }
+    printf("%c node (%d), h = %d", side, node->id, node->height);
+    
+    if (node->parent != NULL)
+        printf("\tpar. -> (%d) \n", node->parent->id);
+    else
+        printf("\t(root)\n");
+
+    printAll(node->left, '<');
+    printAll(node->right, '>');
+    
 }
 
 void printInOrder(Node * node, const char side)
@@ -201,6 +222,10 @@ void printInOrder(Node * node, const char side)
         return;
 
     printInOrder(node->left, '<');
-    printf("%c node (%d) \n", side, node->id);
+    printf("%c node (%d)", side, node->id);
+    if (node->parent != NULL)
+        printf("\tpar (%d)\n", node->parent->id);
+    else
+        printf("\t(root)\n");
     printInOrder(node->right, '>');
 }
