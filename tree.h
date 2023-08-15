@@ -32,3 +32,5 @@ Node * search(Node * root, int id, bool debug);
 bool delete(Node * root, int id);
 
 void printAll(Node * node, const char side);
+
+void printInOrder(Node * node, const char side);

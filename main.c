@@ -14,22 +14,19 @@ int main(int argc, char const *argv[])
     root = insert(root, NULL, 40);
     root = insert(root, NULL, 22);
 
-    root = insert(root, NULL, 58);
-    root = insert(root, NULL, 64);
     root = insert(root, NULL, 47);
     root = insert(root, NULL, 3);
     root = insert(root, NULL, 7);
     root = insert(root, NULL, 11);
-    insert(root, NULL, 35);
-
-    printf("\n\n\n");
-    printAll(root, '|');
+    root = insert(root, NULL, 35);
 
 
     printf("\n\n\n");
     delete(root, 8);
     delete(root, 3);
-    printAll(root, '|');
+    delete(root, 40);
+
+    printInOrder(root, '|');
 
     return 0;
 }

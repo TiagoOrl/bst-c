@@ -194,3 +194,13 @@ void printAll(Node * node, const char side)
         printAll(node->right, '>');
     }
 }
+
+void printInOrder(Node * node, const char side)
+{
+    if (node == NULL)
+        return;
+
+    printInOrder(node->left, '<');
+    printf("%c node (%d) \n", side, node->id);
+    printInOrder(node->right, '>');
+}
