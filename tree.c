@@ -1,6 +1,6 @@
 #include "tree.h"
 
-Node * createOne(int id)
+Node * createNode(int id)
 {
     Node * newNode = (Node *)malloc(sizeof(Node));
     newNode->id = id;
@@ -25,17 +25,22 @@ int height(Node * n)
     return n->height;
 }
 
-Node * createRoot(int id)
+Tree * newTree()
 {
-    return createOne(id);
+    Tree * tree = (Tree *)malloc(sizeof(Tree));
+    tree->min = 0;
+    tree->max = 0;
+    tree->root = NULL;
+    tree->size = 0;
+
+    return tree;
 }
 
 
-Node * insert(Node * node, Node * parent, int id)
+Node * insertInNode(Node * node, Node * parent, int id)
 {
-
     if (node == NULL) {
-        node = createOne(id);
+        node = createNode(id);
         node->parent = parent;
         printf("%d inserted\n", id);
         
@@ -44,12 +49,12 @@ Node * insert(Node * node, Node * parent, int id)
         
     if (id < node->id) {
         printf("< of (%d) \n", node->id);
-        node->left = insert(node->left, node, id);
+        node->left = insertInNode(node->left, node, id);
     }
         
     else if (id > node->id) {
         printf("> of (%d) \n", node->id);
-        node->right = insert(node->right, node, id);
+        node->right = insertInNode(node->right, node, id);
     }
 
     else 
@@ -62,30 +67,39 @@ Node * insert(Node * node, Node * parent, int id)
     return node;
 }
 
-Node * search(Node * root, int id, bool debug)
+void insert(Tree * tree, int id)
 {
-    if (root == NULL)
+    tree->root = insertInNode(tree->root, NULL, id);
+}
+
+Node * searchInNode(Node * node, int id, bool debug)
+{
+    if (node == NULL)
         return NULL;
 
-    if (root->id == id)
-        return root;
+    if (node->id == id)
+        return node;
 
-    if (id < root->id)
+    if (id < node->id)
     {
         if (debug == true)
-            printf("< %d\n", root->id);
-        return search(root->left, id, debug);
+            printf("< %d\n", node->id);
+        return searchInNode(node->left, id, debug);
     }
 
     if (debug == true)
-        printf("> %d\n", root->id);
-    return search(root->right, id, debug);
+        printf("> %d\n", node->id);
+    return searchInNode(node->right, id, debug);
 }
 
-bool delete(Node * root, int id)
+Node * search(Tree * tree, int id, bool debug)
 {
-    Node * found = search(root, id, false);
+    searchInNode(tree->root, id, debug);
+}
 
+bool delete(Tree * tree, int id)
+{
+    Node * found = search(tree, id, false);
     if (found == NULL)
         return false;
 
@@ -199,23 +213,41 @@ int size(Node * node)
     return (size(node->left) + 1 + size(node->right));
 }
 
-int minimal(Node * node)
+int treeSize(Tree * tree)
+{
+    tree->size = size(tree->root);
+    return tree->size;
+}
+
+int nodeMinimal(Node * node)
 {
     if (node->left != NULL)
-        return minimal(node->left);
+        return nodeMinimal(node->left);
 
     return node->id;
 }
 
-int largest(Node * node)
+int minimal(Tree * tree)
+{
+    tree->min = nodeMinimal(tree->root);
+    return tree->min;
+}
+
+int nodeLargest(Node * node)
 {
     if (node->right != NULL)
-        return largest(node->right);
+        return nodeLargest(node->right);
 
     return node->id;
 }
 
-void printAll(Node * node, const char side)
+int largest(Tree * tree)
+{
+    tree->max = nodeLargest(tree->root);
+    return tree->max;
+}
+
+void printPre(Node * node, const char side)
 {
     if (node == NULL)
         return;
@@ -227,8 +259,8 @@ void printAll(Node * node, const char side)
     else
         printf("\t(root)\n");
 
-    printAll(node->left, '<');
-    printAll(node->right, '>');
+    printPre(node->left, '<');
+    printPre(node->right, '>');
     
 }
 
@@ -244,4 +276,13 @@ void printInOrder(Node * node, const char side)
     else
         printf("\t(root)\n");
     printInOrder(node->right, '>');
+}
+
+void print(Tree * tree, const char traversal)
+{
+    if (traversal == 'i')
+        printInOrder(tree->root, '|');
+
+    if (traversal == 'p')
+        printPre(tree->root, '|');
 }

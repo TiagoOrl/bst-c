@@ -1,42 +1,53 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include "node.h"
 
 #define true 1
 #define false 0
 
 typedef int bool;
 
-struct _node
-{
-    int id;
-    int height;
-    struct _node * left;
-    struct _node * right;
-    struct _node * parent;
+struct _tree {
+    Node * root;
+    int max;
+    int min;
+    int size;
 };
 
-typedef struct _node Node;
+typedef struct _tree Tree;
 
-Node * createOne(int id);
+Tree * newTree();
+
+Node * createNode(int id);
 
 int max(int a, int b);
 
-int height(Node * n);
+int height(Node * node);
 
-Node * createRoot(int id);
+Node * insertInNode(Node * node, Node * parent, int id);
 
-Node * insert(Node * node, Node * parent, int id);
+void insert(Tree *, int id);
 
-Node * search(Node * root, int id, bool debug);
+Node * searchInNode(Node * node, int id, bool debug);
 
-bool delete(Node * root, int id);
+Node * search(Tree * tree, int id, bool debug);
 
-int size(Node * root);
+bool delete(Tree * tree, int id);
 
-int largest(Node * root);
+int size(Node * n);
 
-int minimal(Node * root);
+int treeSize(Tree * t);
 
-void printAll(Node * node, const char side);
+int minimal(Tree * tree);
 
-void printInOrder(Node * node, const char side);
+int nodeMinimal(Node * node);
+
+int largest(Tree * tree);
+
+int nodeLargest(Node * n);
+
+void print(Tree * tree, const char t);
+
+void printPre(Node * n, const char side);
+
+void printInOrder(Node * n, const char side);
