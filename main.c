@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "tree.h"
+#include "src/tree.h"
 
 
 int main(int argc, char const *argv[])

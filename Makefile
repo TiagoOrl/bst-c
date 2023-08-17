@@ -7,8 +7,8 @@ run: main.o tree.o
 main.o: main.c
 	$(CC) -c main.c
 
-tree.o: tree.c
-	$(CC) -c tree.c
+tree.o: src/tree.c
+	$(CC) -c src/tree.c
 
 cl:
 	rm run *.o
