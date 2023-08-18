@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "stdio.h": "c",
-        "__node_handle": "c"
+        "__node_handle": "c",
+        "tree.h": "c"
     }
 }
