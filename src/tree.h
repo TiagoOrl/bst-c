@@ -51,3 +51,11 @@ void print(Tree * tree, const char t);
 void printPre(Node * n, const char side);
 
 void printInOrder(Node * n, const char side);
+
+int getBalance(Node * n);
+
+Node * rightRotate(Node * node);
+
+Node * leftRotate(Node * node);
+
+Node * balanceNode(Node * node, int id);

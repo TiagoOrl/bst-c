@@ -36,6 +36,103 @@ Tree * newTree()
     return tree;
 }
 
+Node * rightRotate(Node * y)
+{
+    Node *x = y->left;
+    Node *T2 = x->right;
+ 
+    // Perform rotation
+    x->right = y;
+    y->left = T2;
+
+    y->parent = x;
+    if (T2 != NULL)
+        T2->parent = y;
+ 
+    // Update heights
+    y->height = max(height(y->left),
+                    height(y->right)) + 1;
+    x->height = max(height(x->left),
+                    height(x->right)) + 1;
+ 
+    // Return new root
+    return x;
+}
+ 
+
+Node * leftRotate(Node * x)
+{
+    Node *y = x->right;
+    Node *T2 = y->left;
+ 
+    // Perform rotation
+    y->left = x;
+    x->right = T2;
+
+    x->parent = y;
+    if (T2 != NULL)
+        T2->parent = x;
+ 
+    // Update heights
+    x->height = max(height(x->left),   
+                    height(x->right)) + 1;
+    y->height = max(height(y->left),
+                    height(y->right)) + 1;
+ 
+    // Return new root
+    return y;
+}
+
+int getBalance(Node *N)
+{
+    if (N == NULL)
+        return 0;
+    return height(N->left) - height(N->right);
+}
+
+
+Node * balanceNode(Node * node, int id)
+{
+    /* 3. Get the balance factor of this ancestor
+        node to check whether this node became
+        unbalanced */
+    int balance = getBalance(node);
+
+    // Left Left Case
+    if (balance > 1 && id < node->left->id)
+    {
+        printf("node %d unbalanced - left left\n", node->id);
+        return rightRotate(node);
+    }
+        
+ 
+    // Right Right Case
+    if (balance < -1 && id > node->right->id) 
+    {
+        printf("node %d unbalanced - right right\n", node->id);
+        return leftRotate(node);
+    }
+        
+ 
+    // Left Right Case
+    if (balance > 1 && id > node->left->id)
+    {
+        printf("node %d unbalanced - left right\n", node->id);
+        node->left = leftRotate(node->left);
+        return rightRotate(node);
+    }
+ 
+    // Right Left Case
+    if (balance < -1 && id < node->right->id)
+    {
+        printf("node %d unbalanced - right left\n", node->id);
+        node->right = rightRotate(node->right);
+        return leftRotate(node);
+    }
+
+    return NULL;
+}
+
 
 Node * insertInNode(Node * node, Node * parent, int id)
 {
@@ -61,7 +158,12 @@ Node * insertInNode(Node * node, Node * parent, int id)
         return node;
 
     node->height = 1 + max(height(node->left), height(node->right));
-    
+
+    Node * balanced = balanceNode(node, id);
+
+    if (balanced != NULL)
+        return balanced;
+
     printf("unstack insert(%d), h = %d\n", node->id, node->height);
 
     return node;
