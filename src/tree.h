@@ -32,6 +32,8 @@ Node * searchInNode(Node * node, int id, bool debug);
 
 Node * search(Tree * tree, int id, bool debug);
 
+Node * deleteNode(Node * r, int id);
+
 bool delete(Tree * tree, int id);
 
 int size(Node * n);
@@ -51,3 +53,11 @@ void print(Tree * tree, const char t);
 void printPre(Node * n, const char side);
 
 void printInOrder(Node * n, const char side);
+
+int getBalance(Node * n);
+
+Node * rightRotate(Node * node);
+
+Node * leftRotate(Node * node);
+
+Node * balanceNode(Node * node, int id);
