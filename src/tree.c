@@ -159,10 +159,10 @@ Node * insertInNode(Node * node, Node * parent, int id)
 
     node->height = 1 + max(height(node->left), height(node->right));
 
-    Node * balanced = balanceNode(node, id);
+    // Node * balanced = balanceNode(node, id);
 
-    if (balanced != NULL)
-        return balanced;
+    // if (balanced != NULL)
+    //     return balanced;
 
     printf("unstack insert(%d), h = %d\n", node->id, node->height);
 
@@ -204,9 +204,17 @@ Node * deleteNode(Node * node, int id)
     if (node == NULL)
         return node;
     if (id > node->id)
+    {
         node->right = deleteNode(node->right, id);
+        return node;
+    }
+        
     if (id < node->id)
+    {
         node->left = deleteNode(node->left, id);
+        return node;
+    }
+        
 
     // found
     // if leaf node
@@ -224,7 +232,7 @@ Node * deleteNode(Node * node, int id)
         return NULL;
     }
     // has only one child
-    if (node->left != NULL || node->right == NULL)
+    if (node->left == NULL || node->right == NULL)
     {
         Node * foundParent = node->parent;
         Node * childNode = (node->left != NULL) ? node->left : node->right;

@@ -32,8 +32,10 @@ int main(int argc, char const *argv[])
     printf("\n\n");
 
 
-    // print(tree, 'p');
-    // printf("size: %d\n\n", treeSize(tree));
+    delete(tree, 64);
+
+    print(tree, 'p');
+    printf("size: %d\n\n", treeSize(tree));
 
     printf("\n");
     printf("largest val: (%d)\n", largest(tree));
