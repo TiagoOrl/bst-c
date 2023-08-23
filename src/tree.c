@@ -40,6 +40,7 @@ Node * rightRotate(Node * y)
 {
     Node *x = y->left;
     Node *T2 = x->right;
+    Node * prevYPar = y->parent;
  
     // Perform rotation
     x->right = y;
@@ -48,6 +49,8 @@ Node * rightRotate(Node * y)
     y->parent = x;
     if (T2 != NULL)
         T2->parent = y;
+
+    x->parent = prevYPar;
  
     // Update heights
     y->height = max(height(y->left),
@@ -64,6 +67,7 @@ Node * leftRotate(Node * x)
 {
     Node *y = x->right;
     Node *T2 = y->left;
+    Node * prevXPar = x->parent;
  
     // Perform rotation
     y->left = x;
@@ -72,6 +76,8 @@ Node * leftRotate(Node * x)
     x->parent = y;
     if (T2 != NULL)
         T2->parent = x;
+
+    y->parent = prevXPar;
  
     // Update heights
     x->height = max(height(x->left),   
@@ -159,10 +165,10 @@ Node * insertInNode(Node * node, Node * parent, int id)
 
     node->height = 1 + max(height(node->left), height(node->right));
 
-    // Node * balanced = balanceNode(node, id);
+    Node * balanced = balanceNode(node, id);
 
-    // if (balanced != NULL)
-    //     return balanced;
+    if (balanced != NULL)
+        return balanced;
 
     printf("unstack insert(%d), h = %d\n", node->id, node->height);
 
