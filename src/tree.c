@@ -364,6 +364,8 @@ void printInOrder(Node * node, const char side)
 
 void print(Tree * tree, const char traversal)
 {
+    printf("\nsize: %d ", treeSize(tree));
+    printf("\n");
     if (traversal == 'i')
         printInOrder(tree->root, '|');
 
