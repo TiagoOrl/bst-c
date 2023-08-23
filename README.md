@@ -1,1 +1,1 @@
-Basic implementation of a BST tree in C.
+Basic implementation of a AVL BST tree in C.
