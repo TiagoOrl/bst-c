@@ -199,63 +199,54 @@ Node * search(Tree * tree, int id, bool debug)
     searchInNode(tree->root, id, debug);
 }
 
-bool delete(Tree * tree, int id)
+Node * deleteNode(Node * node, int id)
 {
-    Node * found = search(tree, id, false);
-    if (found == NULL)
-        return false;
+    if (node == NULL)
+        return node;
+    if (id > node->id)
+        node->right = deleteNode(node->right, id);
+    if (id < node->id)
+        node->left = deleteNode(node->left, id);
 
-
+    // found
     // if leaf node
-    if (found->left == NULL && found->right == NULL)
+    if (node->left == NULL && node->right == NULL)
     {
         // find at what side the found node is from parent
-        if (found->parent->left != NULL && 
-            found->parent->left->id == id)
-            found->parent->left = NULL;
+        if (node->parent->left != NULL && 
+            node->parent->left->id == id)
+            node->parent->left = NULL;
         else
-            found->parent->right = NULL;
+            node->parent->right = NULL;
             
             
-        free(found);
-        return true;
+        free(node);
+        return NULL;
     }
-
-    if (found->left != NULL && found->right == NULL)
+    // has only one child
+    if (node->left != NULL || node->right == NULL)
     {
-        Node * foundParent = found->parent;
-        found->left->parent = foundParent;
+        Node * foundParent = node->parent;
+        Node * childNode = (node->left != NULL) ? node->left : node->right;
 
-        // find at what side the found node is from parent
+        // found parent is now the parent of the left node off found one
+        childNode->parent = foundParent; 
+
+        // find at what side the found node is from parent and set the successor
         if (foundParent->left != NULL && foundParent->left->id == id)
-            foundParent->left = found->left;
+            foundParent->left = childNode;
         else
-            foundParent->right = found->left;
+            foundParent->right = childNode;
         
-        free(found);
-        return true;
+        Node * successor = childNode;
+        free(node);
+        return successor;
     }
 
-    if (found->right != NULL && found->left == NULL)
+    if (node->left != NULL && node->right != NULL)
     {
-        Node * foundParent = found->parent;
-        found->right->parent = foundParent;
-
-        // find at what side the found node is from parent
-        if (foundParent->left != NULL && foundParent->left->id == id)
-            foundParent->left = found->right;
-        else
-            foundParent->right = found->right;
-        
-        free(found);
-        return true;
-    }
-
-    if (found->left != NULL && found->right != NULL)
-    {
-        Node * succ = found->right;
-        Node * foundParent = found->parent;
-
+        Node * succ = node->right;
+        Node * foundParent = node->parent;
 
         if (succ->left != NULL)
         {
@@ -275,7 +266,7 @@ bool delete(Tree * tree, int id)
         
         else 
         {
-            succ = found->left;
+            succ = node->left;
             if (succ->right == NULL)
             {
                 succ->parent->left = NULL;
@@ -297,13 +288,17 @@ bool delete(Tree * tree, int id)
             }
         }
 
-
-        found->id = succ->id;
+        node->id = succ->id;
 
         free(succ);
-        return true;
+        return node;
     }
+}
 
+
+bool delete(Tree * tree, int id)
+{
+    tree->root = deleteNode(tree->root, id);
     return true;
 }
 

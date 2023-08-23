@@ -32,6 +32,8 @@ Node * searchInNode(Node * node, int id, bool debug);
 
 Node * search(Tree * tree, int id, bool debug);
 
+Node * deleteNode(Node * r, int id);
+
 bool delete(Tree * tree, int id);
 
 int size(Node * n);
