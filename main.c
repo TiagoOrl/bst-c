@@ -17,7 +17,7 @@ int main(int argc, char const *argv[])
     insert(tree, 11);
     insert(tree, 22);
     insert(tree, 40);
-    insert(tree, 35);
+    // insert(tree, 35);
     insert(tree, 58);
     insert(tree, 47);
     insert(tree, 42);
@@ -32,7 +32,8 @@ int main(int argc, char const *argv[])
     printf("\n\n");
 
 
-    delete(tree, 64);
+    delete(tree, 30);
+    delete(tree, 40);
 
     print(tree, 'p');
     printf("size: %d\n\n", treeSize(tree));

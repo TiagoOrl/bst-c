@@ -254,48 +254,27 @@ Node * deleteNode(Node * node, int id)
     if (node->left != NULL && node->right != NULL)
     {
         Node * succ = node->right;
-        Node * foundParent = node->parent;
 
-        if (succ->left != NULL)
+        while (succ->left != NULL)
         {
-            while (succ->left != NULL)
-            {
-                succ = succ->left;
-            }
-
-            if (succ->right != NULL)
-            {
-                succ->parent->left = succ->right;
-                succ->right->parent = succ->parent;
-            }
-            else
-                succ->parent->left = NULL;
-        } 
-        
-        else 
-        {
-            succ = node->left;
-            if (succ->right == NULL)
-            {
-                succ->parent->left = NULL;
-            }
-            else 
-            {
-                while (succ->right != NULL)
-                {
-                    succ = succ->right;
-                }
-                
-                if (succ->left != NULL)
-                {
-                    succ->parent->right = succ->left;
-                    succ->left->parent = succ->parent;
-                }
-                else
-                    succ->parent->right = NULL;
-            }
+            succ = succ->left;
         }
 
+        if (succ->right != NULL && succ->parent == node)
+        {
+            succ->parent->right = succ->right;
+            succ->right->parent = succ->parent;
+        }
+
+        else if (succ->right != NULL && succ->parent != node)
+        {
+            succ->parent->left = succ->right;
+            succ->right->parent = succ->parent;
+        }
+
+        else
+            succ->parent->left = NULL;
+        
         node->id = succ->id;
 
         free(succ);
