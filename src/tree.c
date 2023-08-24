@@ -282,18 +282,14 @@ Node * deleteNode(Node * node, int id)
             }
             // case 1.2
             else 
-            {
                 node->right = NULL;
-            }
         }
         // case 2
         else
         {
             // case 2.1
             if (succ->right == NULL)
-            {
                 succ->parent->left == NULL;
-            }
             // case 2.2
             else 
             {
