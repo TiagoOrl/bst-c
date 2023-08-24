@@ -165,10 +165,10 @@ Node * insertInNode(Node * node, Node * parent, int id)
 
     node->height = 1 + max(height(node->left), height(node->right));
 
-    Node * balanced = balanceNode(node, id);
+    // Node * balanced = balanceNode(node, id);
 
-    if (balanced != NULL)
-        return balanced;
+    // if (balanced != NULL)
+    //     return balanced;
 
     printf("unstack insert(%d), h = %d\n", node->id, node->height);
 
@@ -221,18 +221,21 @@ Node * deleteNode(Node * node, int id)
         return node;
     }
         
+    Node * foundParent = node->parent;
 
     // found
     // if leaf node
     if (node->left == NULL && node->right == NULL)
     {
-        // find at what side the found node is from parent
-        if (node->parent->left != NULL && 
-            node->parent->left->id == id)
-            node->parent->left = NULL;
-        else
-            node->parent->right = NULL;
-            
+        if (foundParent != NULL)
+        {
+            // find at what side the found node is from parent
+            if (foundParent->left != NULL && 
+                foundParent->left->id == id)
+                foundParent->left = NULL;
+            else
+                foundParent->right = NULL;
+        }   
             
         free(node);
         return NULL;
@@ -240,19 +243,21 @@ Node * deleteNode(Node * node, int id)
     // has only one child
     if (node->left == NULL || node->right == NULL)
     {
-        Node * foundParent = node->parent;
-        Node * childNode = (node->left != NULL) ? node->left : node->right;
+        Node * foundChild = (node->left != NULL) ? node->left : node->right;
 
-        // found parent is now the parent of the left node off found one
-        childNode->parent = foundParent; 
+        // found parent is now the parent of the left or right node off found one
+        foundChild->parent = foundParent; 
 
         // find at what side the found node is from parent and set the successor
-        if (foundParent->left != NULL && foundParent->left->id == id)
-            foundParent->left = childNode;
-        else
-            foundParent->right = childNode;
+        if (foundParent != NULL)
+        {
+            if (foundParent->left != NULL && foundParent->left->id == id)
+                foundParent->left = foundChild;
+            else
+                foundParent->right = foundChild;
+        }
         
-        Node * successor = childNode;
+        Node * successor = foundChild;
         free(node);
         return successor;
     }
@@ -319,6 +324,12 @@ int nodeMinimal(Node * node)
 
 int minimal(Tree * tree)
 {
+    if (tree->root == NULL)
+    {
+        tree->min = NULL;
+        return NULL;
+    }
+        
     tree->min = nodeMinimal(tree->root);
     return tree->min;
 }
@@ -333,6 +344,12 @@ int nodeLargest(Node * node)
 
 int largest(Tree * tree)
 {
+    if (tree->root == NULL)
+    {
+        tree->max = NULL;
+        return NULL;
+    }
+        
     tree->max = nodeLargest(tree->root);
     return tree->max;
 }
