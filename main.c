@@ -17,19 +17,16 @@ int main(int argc, char const *argv[])
     insert(tree, 11);
     insert(tree, 22);
     insert(tree, 40);
-    // insert(tree, 35);
     insert(tree, 58);
     insert(tree, 47);
+    insert(tree, 64);
     insert(tree, 42);
     insert(tree, 45);
-    insert(tree, 64);
 
     print(tree, 'p');
 
-    delete(tree, 30);
-    delete(tree, 40);
-    delete(tree, 58);
-
+    delete(tree, 12);
+    
     print(tree, 'p');
 
     printf("\n");

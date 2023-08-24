@@ -271,21 +271,37 @@ Node * deleteNode(Node * node, int id)
             succ = succ->left;
         }
 
-        if (succ->right != NULL && succ->parent == node)
+        // case 1
+        if (succ->parent == node)
         {
-            succ->parent->right = succ->right;
-            succ->right->parent = succ->parent;
+            // case 1.1
+            if (succ->right != NULL)
+            {
+                succ->right->parent = node;
+                node->right = succ->right;
+            }
+            // case 1.2
+            else 
+            {
+                node->right = NULL;
+            }
         }
-
-        else if (succ->right != NULL && succ->parent != node)
-        {
-            succ->parent->left = succ->right;
-            succ->right->parent = succ->parent;
-        }
-
+        // case 2
         else
-            succ->parent->left = NULL;
-        
+        {
+            // case 2.1
+            if (succ->right == NULL)
+            {
+                succ->parent->left == NULL;
+            }
+            // case 2.2
+            else 
+            {
+                succ->right->parent = succ->parent;
+                succ->parent->left = succ->right;
+            }
+        }
+
         node->id = succ->id;
 
         free(succ);
@@ -359,12 +375,12 @@ void printPre(Node * node, const char side)
     if (node == NULL)
         return;
 
-    printf("%c node (%d), h = %d", side, node->id, node->height);
+    printf("n(%d) %c", node->id, side);
     
     if (node->parent != NULL)
-        printf("\tpar. -> (%d) \n", node->parent->id);
+        printf("  p(%d) \n", node->parent->id);
     else
-        printf("\t(root)\n");
+        printf("  (root)\n");
 
     printPre(node->left, '<');
     printPre(node->right, '>');
