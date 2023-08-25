@@ -289,7 +289,7 @@ Node * deleteNode(Node * node, int id)
         {
             // case 2.1
             if (succ->right == NULL)
-                succ->parent->left == NULL;
+                succ->parent->left = NULL;
             // case 2.2
             else 
             {
