@@ -338,8 +338,8 @@ int minimal(Tree * tree)
 {
     if (tree->root == NULL)
     {
-        tree->min = NULL;
-        return NULL;
+        tree->min = 0;
+        return 0;
     }
         
     tree->min = nodeMinimal(tree->root);
@@ -358,8 +358,8 @@ int largest(Tree * tree)
 {
     if (tree->root == NULL)
     {
-        tree->max = NULL;
-        return NULL;
+        tree->max = 0;
+        return 0;
     }
         
     tree->max = nodeLargest(tree->root);
